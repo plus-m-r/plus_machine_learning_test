@@ -8,7 +8,7 @@ train_imgs, train_labels, test_imgs, test_labels = load_mnist_flattened_toNumpy(
 
 def objective(params):
     learning_rate, batch_size, hidden_dim1,hidden_dim2 = params
-    net = torch_network(train_imgs, train_labels)
+    net = torch_network(train_imgs, train_labels )
     net.add_layer(int(hidden_dim1))
     net.add_layer(int(hidden_dim2))
     net.add_layer(10,True)

@@ -56,3 +56,20 @@ def load_mnist_flattened_toNumpy():
     test_flat = flatten_images(test_imgs)
     
     return train_flat, train_labels, test_flat, test_labels
+def load_mnist_with_channel_toNumpy():
+    """加载MNIST数据集，返回包含通道数的NumPy数组
+    返回:
+        train_images: 训练集图像，形状(60000, 1, 28, 28)
+        train_labels: 训练集标签，形状(60000,)
+        test_images: 测试集图像，形状(10000, 1, 28, 28)
+        test_labels: 测试集标签，形状(10000,)
+    """
+    download()  # 确保数据已下载
+    train_set = datasets.MNIST("data", train=True, download=False, transform=transforms.ToTensor())
+    test_set = datasets.MNIST("data", train=False, download=False, transform=transforms.ToTensor())
+    # 转换为NumPy数组，保留通道维度
+    train_images = np.array([img.numpy() for img, _ in train_set])  # (60000, 1, 28, 28)
+    train_labels = np.array([label for _, label in train_set])
+    test_images = np.array([img.numpy() for img, _ in test_set])    # (10000, 1, 28, 28)
+    test_labels = np.array([label for _, label in test_set])
+    return train_images, train_labels, test_images, test_labels
