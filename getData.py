@@ -1,7 +1,9 @@
 import numpy as np
 from torchvision import datasets, transforms
+import nltk
+from nltk.corpus import ptb
 
-def download():
+def download_Mnist():
     """下载MNIST数据集到本地（复用原下载逻辑）"""
     datasets.MNIST("data", train=True, download=True, transform=transforms.ToTensor())
     datasets.MNIST("data", train=False, download=True, transform=transforms.ToTensor())
@@ -26,7 +28,7 @@ def load_mnist_toNumpy():
         test_images: 测试集图像，形状(10000, 28, 28)
         test_labels: 测试集标签，形状(10000,)
     """
-    download()  # 确保数据已下载
+    download_Mnist()  # 确保数据已下载
     
     # 加载原始数据集（ToTensor转换后为张量）
     train_set = datasets.MNIST("data", train=True, download=False, transform=transforms.ToTensor())
@@ -64,7 +66,7 @@ def load_mnist_with_channel_toNumpy():
         test_images: 测试集图像，形状(10000, 1, 28, 28)
         test_labels: 测试集标签，形状(10000,)
     """
-    download()  # 确保数据已下载
+    download_Mnist()  # 确保数据已下载
     train_set = datasets.MNIST("data", train=True, download=False, transform=transforms.ToTensor())
     test_set = datasets.MNIST("data", train=False, download=False, transform=transforms.ToTensor())
     # 转换为NumPy数组，保留通道维度
@@ -73,3 +75,7 @@ def load_mnist_with_channel_toNumpy():
     test_images = np.array([img.numpy() for img, _ in test_set])    # (10000, 1, 28, 28)
     test_labels = np.array([label for _, label in test_set])
     return train_images, train_labels, test_images, test_labels
+def download_PTB():
+    nltk.download('ptb')
+    sentences = ptb.sents()
+    print(len(sentences))
